@@ -9,6 +9,17 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+
+
+/node_modules
+/yarn-error.log
+
+
 
 # Used by dotenv library to load environment variables.
 # .env

@@ -1,0 +1,58 @@
+version: '3'
+services:
+  ddp:
+    image: "mysql:5.7"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hunter
+      MYSQL_DATABASE: chatapp
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: hunter
+    ports:
+      - "3307:3306"
+
+
+  redis:
+    image: redis:4.0-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      # We'll mount the 'redis-data' volume into the location redis stores it's data:
+      - ./volumes/redis-data:/data
+    command: redis-server --port 6379 --appendonly yes
+
+
+  redis2:
+    image: redis:3.2.4-alpine
+    restart: always
+    ports:
+      - "6378:6378"
+    volumes:
+      # We'll mount the 'redis-data' volume into the location redis stores it's data:
+      - ./volumes/redis-data:/data
+    command: redis-server --port 6378 --appendonly yes
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    depends_on:
+      - redis
+    volumes:
+      - .:/myapp
+    env_file:
+      - .env
+
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - ddp
+      - sidekiq
+      - redis2
+    env_file:
+      - .env
