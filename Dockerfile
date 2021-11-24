@@ -7,5 +7,6 @@ WORKDIR /myapp
 ADD Gemfile /myapp/Gemfile
 ADD Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
-ENTRYPOINT ["sh", "./config/docker/startup.sh"]
+ADD . /myapp
+# ENTRYPOINT ["sh", "./config/docker/startup.sh"]
 ADD . /myapp
