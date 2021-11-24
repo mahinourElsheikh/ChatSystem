@@ -2,7 +2,7 @@ class Api::V1::MessagesController < Api::ApiController
   before_action :set_application_chat
   before_action :set_message, only: %i[update show]
   def index
-    json_response({ chats: @chat.messages.as_json({ except: %i[id created_at updated_at] }) }, :ok)
+    json_response({ chats: @chat.messages.order(seq_num: :desc).as_json({ except: %i[id created_at updated_at] }) }, :ok)
   end
 
   # POST /chats/:chat_id/messages

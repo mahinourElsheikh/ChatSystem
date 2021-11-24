@@ -2,7 +2,7 @@ class Api::V1::ChatsController < Api::ApiController
   before_action :set_application
 
   def index
-    json_response({ chats: @application.chats.as_json({ except: %i[id created_at updated_at] }) }, :ok)
+    json_response({ chats: @application.chats.order(seq_num: :desc).as_json({ except: %i[id created_at updated_at] }) }, :ok)
   end
 
   def create
