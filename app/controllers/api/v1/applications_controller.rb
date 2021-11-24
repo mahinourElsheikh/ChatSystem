@@ -8,6 +8,7 @@ class Api::V1::ApplicationsController < Api::ApiController
   def create
     @app = Application.new(application_params)
     if @app.save
+      Sidekiq::Client.enqueue_to_in('chats_count', 1.hour.from_now, ApplicationCountWorker, @app.id)
       json_response({ app_token: @app.token, name: @app.name }, :ok)
     else
       json_response(nil, :bad_request, @app.errors.full_messages)

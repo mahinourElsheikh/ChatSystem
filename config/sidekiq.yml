@@ -1,5 +1,6 @@
 :concurrency: 2
 :queues:
-  - default
   - chats
   - messages
+  - messages_count
+  - chats_count
