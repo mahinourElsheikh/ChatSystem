@@ -2,7 +2,8 @@ class Api::V1::MessagesController < Api::ApiController
   before_action :set_application_chat
   before_action :set_message, only: %i[update show]
   def index
-    json_response({ chats: @chat.messages.order(seq_num: :desc).as_json({ except: %i[id created_at updated_at] }) }, :ok)
+    json_response({ messages: @chat.messages.order(seq_num: :desc).as_json({ except: %i[id created_at updated_at] }) },
+                  :ok)
   end
 
   # POST /chats/:chat_id/messages
@@ -12,6 +13,9 @@ class Api::V1::MessagesController < Api::ApiController
     message.chat = @chat
     if message.valid?
       CreateMessageWorker.perform_async(message.as_json)
+      stream_name = Application.stream_name(@application.token)
+      ActionCable.server.broadcast stream_name, { chat_seq_id: @chat.seq_num, message: message.as_json }
+
       json_response({ message: message.as_json({ except: %i[id created_at updated_at] }) }, :ok)
     else
       json_response(nil, :bad_request, 'Something went wrong')
