@@ -37,12 +37,6 @@ class Api::V1::MessagesController < Api::ApiController
 
   private
 
-  def set_application_chat
-    @application = Application.find_by(token: params[:application_id])
-    @chat = @application.chats.find_by(seq_num: params[:chat_id])
-    json_response(nil, :not_found) unless @application.present? && @chat.present?
-  end
-
   def set_message
     @message = @chat.messages.find_by(seq_num: params[:id])
     json_response(nil, :not_found) unless @message.present?

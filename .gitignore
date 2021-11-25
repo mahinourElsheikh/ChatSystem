@@ -15,7 +15,8 @@
 !/tmp/.keep
 
 
-
+/volumes
+/volumes/*
 /node_modules
 /yarn-error.log
 

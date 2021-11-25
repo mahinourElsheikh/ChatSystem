@@ -10,4 +10,10 @@ class Api::ApiController < ActionController::API
   def get_seq_number_with_redis(token)
     $redis.incr("application_#{token}_chat_sep")
   end
+
+  def set_application_chat
+    @application = Application.find_by(token: params[:application_id])
+    @chat = @application.chats.find_by(seq_num: params[:chat_id])
+    json_response(nil, :not_found) unless @application.present? && @chat.present?
+  end
 end

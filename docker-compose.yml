@@ -42,9 +42,17 @@ services:
     env_file:
       - .env
 
+  elasticsearch:
+    image: elasticsearch:5.4.0-alpine
+    restart: always
+    ports:
+      - "9300:9200"
+    volumes:
+      - ./volumes/es:/usr/share/elasticsearch/data
+
   web:
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: sh -c "sh wait-curl.sh elasticsearch:9200 && sh ./init.sh && rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/myapp
     ports:
@@ -53,5 +61,6 @@ services:
       - ddp
       - sidekiq
       - redis2
+      - elasticsearch
     env_file:
       - .env
