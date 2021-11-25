@@ -1,6 +1,8 @@
 class Message < ApplicationRecord
   belongs_to :chat
   validates :description, presence: true
+  validates :seq_num, uniqueness: { scope: :chat }
+
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
