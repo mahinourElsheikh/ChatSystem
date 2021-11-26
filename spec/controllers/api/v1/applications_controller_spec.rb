@@ -24,14 +24,14 @@ RSpec.describe Api::V1::ApplicationsController do
 
     it 'returns the applications' do
       get '/api/v1/applications'
-      expect(response.status).to eq(201)
+      expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['count']).to eq(1)
     end
 
     it 'returns the 2nd applications seq_num' do
       create(:random_app)
       get '/api/v1/applications'
-      expect(response.status).to eq(201)
+      expect(response.status).to eq(200)
       expect(JSON.parse(response.body)['count']).to eq(2)
     end
 

@@ -1,7 +1,11 @@
 class Api::V1::ApplicationsController < Api::ApiController
   # There should be some sort of Authentication maybe cancancan to have certain users with certain abilities to see that
   def index
-    json_response({ applications: Application.all.as_json({ only: %i[token chats_count name] }), count: Application.all.count  }, :created)
+    applications = Application.all
+    json_response(
+      { applications: applications.as_json({ only: %i[token chats_count name] }), count: applications.count,
+        per_page: per_page, page: page }, :ok
+    )
   end
 
   # POST /applications

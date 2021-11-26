@@ -11,6 +11,17 @@ services:
     ports:
       - "3307:3306"
 
+  ddp_test:
+    image: "mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: chatapp_test
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: password
+    ports:
+      - "3308:3305"
+
   redis:
     image: redis:4.0-alpine
     restart: always
@@ -62,5 +73,6 @@ services:
       - sidekiq
       - redis2
       - elasticsearch
+      - ddp_test
     env_file:
       - .env
