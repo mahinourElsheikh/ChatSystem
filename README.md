@@ -3,7 +3,6 @@
 Use ` docker-compose up ` to start running the project. Everything should be up and created/running.
 
 ## Endpoints
----
 </br>
 
 - [Applications CRUD](docs/application_endpoints.md)
