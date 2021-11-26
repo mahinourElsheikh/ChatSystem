@@ -3,7 +3,8 @@ class Api::V1::ChatsController < Api::ApiController
 
   def index
     json_response(
-      { chats: @application.chats.order(seq_num: :desc).as_json({ only: %i[seq_num messages_count] }) }, :ok
+      { chats: @application.chats.order(seq_num: :desc).as_json({ only: %i[seq_num messages_count] }),
+        count: @application.chats.count }, :ok
     )
   end
 
@@ -20,7 +21,7 @@ class Api::V1::ChatsController < Api::ApiController
       stream_name = Application.stream_name(@application.token)
       ActionCable.server.broadcast stream_name, { chat_seq_id: chat.seq_num, message: message.as_json }
 
-      json_response({ chats: chat.as_json({ only: %i[seq_num messages_count]}) }, :ok)
+      json_response({ chat: chat.as_json({ only: %i[seq_num messages_count] }) }, :ok)
     else
       json_response(nil, :bad_request, 'Something went wrong')
     end

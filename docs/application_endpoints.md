@@ -20,7 +20,7 @@ Content-Length: 22
 ### Expected result 
 ```
 {
-    "app_token": "JF5LF1nbxQ8dmg1U95R7fQ",
+    "token": "JF5LF1nbxQ8dmg1U95R7fQ",
     "name": "App1"
 }
 ```
