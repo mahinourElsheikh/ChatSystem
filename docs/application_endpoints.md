@@ -14,7 +14,9 @@ Cookie: last_seen_locale=en
 Content-Length: 22
 
 {
-    "name": "App1"
+    "application": {
+        "name": "App1"
+    }
 }
 ```
 ### Expected result 
@@ -50,7 +52,14 @@ Cookie: last_seen_locale=en
 ```
 GET /api/v1/applications/ HTTP/1.1
 Host: localhost:3000
+Content-Type: application/json
 Cookie: last_seen_locale=en
+Content-Length: 36
+
+{
+    "page": 1,
+    "per_page": 2
+}
 ```
 ### Expected result 
 ```
@@ -66,7 +75,10 @@ Cookie: last_seen_locale=en
             "name": "App1",
             "chats_count": 2
         }
-    ]
+    ],
+    "count": 4,
+    "per_page": 2,
+    "page": 1
 }
 ```
 ---

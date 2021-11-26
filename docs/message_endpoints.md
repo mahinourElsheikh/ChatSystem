@@ -36,6 +36,11 @@ Content-Length: 32
 GET /api/v1/applications/:application_id/chats/:chat_id/messages/ HTTP/1.1
 Host: localhost:3000
 Cookie: last_seen_locale=en
+
+{
+    "page": 1,
+    "per_page": 3
+}
 ```
 ### Expected result 
 ```
@@ -53,7 +58,10 @@ Cookie: last_seen_locale=en
             "description": "Hey",
             "seq_num": 1
         }
-    ]
+    ],
+    "count": 4,
+    "per_page": 3,
+    "page": 1
 }
 ```
 ---

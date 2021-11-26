@@ -3,7 +3,7 @@ class Api::V1::MessagesController < Api::ApiController
   before_action :set_message, only: %i[update show]
   def index
     messages = @chat.messages.order(seq_num: :desc).paginate(page: page, per_page: per_page)
-    json_response({ messages: messages.as_json({ only: %i[seq_num description] }), per_page: per_page, page: page },
+    json_response({ messages: messages.as_json({ only: %i[seq_num description] }), per_page: per_page, page: page, count: messages.count },
                   :ok)
   end
 
