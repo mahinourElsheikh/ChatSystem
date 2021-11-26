@@ -1,7 +1,7 @@
 class Api::V1::ApplicationsController < Api::ApiController
   # There should be some sort of Authentication maybe cancancan to have certain users with certain abilities to see that
   def index
-    json_response({ applications: Application.all.as_json({ except: %i[id] }) }, :created)
+    json_response({ applications: Application.all.as_json({ only: %i[token chats_count name] }) }, :created)
   end
 
   # POST /applications
@@ -18,7 +18,7 @@ class Api::V1::ApplicationsController < Api::ApiController
   # GET /applications/id
   def show
     @app = Application.find_by(token: params[:id])
-    json_response(@app.as_json({ except: %i[id] }))
+    json_response(@app.as_json({ only: %i[token chats_count name] }))
   end
 
   # PUT /applications/id

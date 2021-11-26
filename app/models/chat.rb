@@ -5,7 +5,7 @@ class Chat < ApplicationRecord
 
   def as_json(options = {})
     base = super(options)
-    base[:messages] = messages.as_json({ except: %i[id created_at updated_at] }) if messages.present?
+    base[:messages] = messages.as_json({ only: %i[description seq_num] }) if messages.present?
     base
   end
 end

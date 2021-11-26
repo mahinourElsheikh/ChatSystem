@@ -2,7 +2,7 @@ class Api::V1::MessagesController < Api::ApiController
   before_action :set_application_chat
   before_action :set_message, only: %i[update show]
   def index
-    json_response({ messages: @chat.messages.order(seq_num: :desc).as_json({ except: %i[id created_at updated_at] }) },
+    json_response({ messages: @chat.messages.order(seq_num: :desc).as_json({ only: %i[seq_num description] }) },
                   :ok)
   end
 
@@ -16,7 +16,7 @@ class Api::V1::MessagesController < Api::ApiController
       stream_name = Application.stream_name(@application.token)
       ActionCable.server.broadcast stream_name, { chat_seq_id: @chat.seq_num, message: message.as_json }
 
-      json_response({ message: message.as_json({ except: %i[id created_at updated_at] }) }, :ok)
+      json_response({ message: message.as_json({ only: %i[seq_num description] }) }, :ok)
     else
       json_response(nil, :bad_request, 'Something went wrong')
     end
@@ -25,7 +25,7 @@ class Api::V1::MessagesController < Api::ApiController
   # GET /chats/:chat_id/messages/:id
   def show
     @message = @chat.messages.find_by(seq_num: params[:id])
-    json_response(@message.as_json({ except: %i[id created_at updated_at] }))
+    json_response(@message.as_json({ only: %i[seq_num description] }))
   end
 
   # PUT /chats/:chat_id/messages/:id
