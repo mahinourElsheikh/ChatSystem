@@ -13,4 +13,4 @@ Use ` docker-compose up ` to start running the project. Everything should be up 
 
 ### Note
 > - I added webscokets in the application for broadcasting the messages in the chat after creation 
-> - Pagination and specs are still needed in the application
+> - Pagination is still needed in the application
