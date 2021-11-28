@@ -14,8 +14,9 @@ services:
   ddp_test:
     image: "mysql"
     restart: always
+    command: mysqld --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: chatapp_test
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: password
